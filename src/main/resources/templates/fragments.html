@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<title>Introduction to SpringBoot Security</title>
+<meta charset="UTF-8" />
+
+</head>
+<body>
+
+	<!-- Fragment #2 : Navbar contains nav links -->
+	<div th:fragment="nav">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" th:href="@{/}">Boot Security</a>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{~/}" style="font-weight: bold;">Home</a></li>
+
+					<li class="nav-item"><a class="nav-link" th:href="@{~/test}"
+						style="font-weight: bold;">Test</a></li>
+
+					<li class="nav-item" sec:authorize="isAnonymous()"><a
+						class="nav-link" th:href="@{~/login}" style="font-weight: bold;">Login</a></li>
+
+					<li sec:authorize="isAuthenticated()" class="nav-item"><a
+						class="nav-link" th:href="@{~/user}" style="font-weight: bold;"></a></li>
+
+					<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item"><a
+						class="nav-link" th:href="@{~/admin}" style="font-weight: bold;">Admin</a></li>
+
+					<li sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')"
+						class="nav-item"><a class="nav-link" href="#"
+						th:href="@{~/manager}" style="font-weight: bold;">Manager</a></li>
+
+					<li sec:authorize="isAuthenticated()"><b
+						sec:authentication="name"></b></li>
+
+				</ul>
+
+				<!-- <a sec:authorize="isAuthenticated()" th:action="@{/logout}" class="btn btn-outline-danger my-2 my-sm-0 btn-sm"
+						type="button">Logout</a>
+				<a sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-outline-info my-2 my-sm-0 btn-sm"
+						type="button">Login</a> -->
+				<div class="form-inline my-2 my-lg-0">
+					<a sec:authorize="isAuthenticated()" th:href="@{~/logout}"
+						class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Logout</a>
+					<a sec:authorize="isAnonymous()" th:href="@{~/login}"
+						class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Login</a>
+				</div >
+				<!-- <form class="form-inline my-2 my-lg-0" th:action="@{/logout}">
+					<button sec:authorize="isAuthenticated()"
+						class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Logout</button>
+					<button sec:authorize="isAnonymous()" th:href="@{~/login}"
+						class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Login</button>
+				</form> -->
+			</div>
+		</nav>
+	</div>
+</body>
+</html>
